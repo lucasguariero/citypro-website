@@ -70,6 +70,13 @@ tailwind.config = {
     pointer-events: none;
   }
   input:focus, textarea:focus { border-color: #F58807; }
+  /* evita scroll horizontal no mobile */
+  html, body { overflow-x: hidden; max-width: 100vw; }
+  section, header, footer, main { max-width: 100vw; }
+  /* quebra palavras longas */
+  p, h1, h2, h3, h4, h5, h6, span, li, a { overflow-wrap: anywhere; word-break: break-word; }
+  /* imagens dentro do container nao podem estourar */
+  img { max-width: 100%; height: auto; }
 </style>
 </head>
 <body class="bg-bg">
@@ -91,7 +98,7 @@ tailwind.config = {
       </nav>
       <div class="flex items-center gap-6">
         <a href="#" class="hidden sm:inline-block text-[13.5px] nav-link">Entrar</a>
-        <a href="#form" class="nav-cta px-4 py-2.5 rounded text-[13.5px] font-semibold transition font-sans">Falar com Especialista</a>
+        <a href="#form" class="nav-cta hidden sm:inline-flex px-4 py-2.5 rounded text-[13.5px] font-semibold transition font-sans">Falar com Especialista</a>
       </div>
     </div>
   </div>
