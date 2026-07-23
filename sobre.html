@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Sobre · O CityPro · Licenciamento urbanístico digital para prefeituras</title>
+<meta name="description" content="O CityPro é a plataforma digital que torna o licenciamento urbanístico municipal rastreável, integrado e com análise BIM. Por que tramita meses se pode acontecer em dias." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ink:'#111827', ink2:'#1F2937',
+      bg:'#FFFFFF', bg2:'#F4F5F7', bg3:'#EBECF0',
+      line:'#DFE1E6',
+      ash:'#5E6C84', ashL:'#7A869A',
+      citrine:'#F58807', citrine2:'#FFAA50'
+    },
+    fontFamily: {
+      sans:['Inter','system-ui','sans-serif'],
+      sansT:['Inter Tight','Inter','system-ui','sans-serif'],
+      mono:['JetBrains Mono','ui-monospace','monospace']
+    }
+  }}
+}
+</script>
+<style>
+  html, body { background:#FFFFFF; color:#111827; font-family:'Inter Tight',Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  html { scroll-behavior: smooth; }
+  ::selection { background:#F58807; color:#fff; }
+  .h-display { font-family:'Inter Tight',sans-serif; font-weight:800; letter-spacing:-0.045em; line-height:0.96; }
+  .h-strong  { font-family:'Inter Tight',sans-serif; font-weight:700; letter-spacing:-0.025em; line-height:1.02; }
+  .mono { font-family:'JetBrains Mono',monospace; letter-spacing:0.04em; }
+  .pill-mono { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; padding:5px 11px; border-radius:999px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; }
+  .hairline { border:1px solid #DFE1E6; }
+  .hairline-t { border-top:1px solid #DFE1E6; }
+  .hairline-b { border-bottom:1px solid #DFE1E6; }
+  .cta-citr { background:#F58807; color:#fff; }
+  .cta-citr:hover { background:#C66A00; }
+  #topnav { position: fixed; top:0; left:0; right:0; z-index:50; color:#fff; }
+  #topnav .nav-main { background: transparent; transition: background .3s ease, border-color .3s ease, box-shadow .3s ease; }
+  #topnav.scrolled .nav-main { background: rgba(255,255,255,0.96); border-bottom: 1px solid #DFE1E6; box-shadow: 0 4px 24px -10px rgba(17,24,39,0.15); backdrop-filter: blur(12px); }
+  #topnav .nav-link { color: rgba(255,255,255,0.92); transition: color .3s ease; }
+  #topnav.scrolled .nav-link { color: rgba(17,24,39,0.78); }
+  #topnav .nav-link:hover { color: #ffffff; }
+  #topnav.scrolled .nav-link:hover { color: #111827; }
+  #topnav .nav-cta { background:#F58807; color:#fff; }
+  #topnav .nav-cta:hover { background:#C66A00; }
+  #topnav .logo-img { height:32px; width:auto; transition: opacity .2s ease; display:block; }
+  #topnav .logo-dark, #topnav .logo-light { position:absolute; left:0; top:50%; transform: translateY(-50%); }
+  #topnav .logo-dark { opacity:1; }
+  #topnav .logo-light { opacity:0; }
+  #topnav.scrolled .logo-dark { opacity:0; }
+  #topnav.scrolled .logo-light { opacity:1; }
+  .hero-ink { background: #070B12; }
+  .hero-ink::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .hero-ink::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(245,136,7,0.20), transparent 60%);
+    pointer-events: none;
+  }
+  /* timeline */
+  .tl-dot { width:14px; height:14px; border-radius:50%; background:#F58807; box-shadow: 0 0 0 4px rgba(245,136,7,0.18); flex:none; }
+  .tl-line { width:2px; background: rgba(17,24,39,0.10); flex:1; }
+</style>
+</head>
+<body class="bg-bg">
+
+<!-- ▸ NAV FIXA -->
+<nav id="topnav" aria-label="Principal">
+  <div class="nav-main">
+    <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+      <a href="./index.html" class="relative inline-block" style="width:140px; height:32px;" aria-label="CityPro — voltar ao início">
+        <img src="./img/branco-laranja.svg" alt="CityPro" class="logo-img logo-dark" />
+        <img src="./img/preto-laranja.svg"  alt="CityPro" class="logo-img logo-light" />
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 text-[14px] font-sans">
+        <a href="./plataforma.html" class="nav-link">Plataforma</a>
+        <a href="./index.html#como-funciona" class="nav-link">Como funciona</a>
+        <a href="./index.html#prefeituras" class="nav-link">Prefeituras</a>
+        <a href="./sobre.html" class="nav-link text-citrine">Sobre</a>
+        <a href="./contato.html" class="nav-link">Contato</a>
+      </nav>
+      <div class="flex items-center gap-6">
+        <a href="#" class="hidden sm:inline-block text-[13.5px] nav-link">Entrar</a>
+        <a href="./contato.html" class="nav-cta px-4 py-2.5 rounded text-[13.5px] font-semibold transition font-sans">Falar com Especialista</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('topnav');
+  function onScroll() {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<!-- ▸ HERO · Sobre -->
+<section class="relative hero-ink text-white py-20 lg:py-32 overflow-hidden">
+  <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 pt-12">
+    <div class="text-center max-w-[960px] mx-auto">
+      <span class="pill-mono border border-white/20 bg-white/10 text-white/85 backdrop-blur-sm mb-7 inline-block">SOBRE O CITYPRO</span>
+      <h1 class="h-display text-[48px] sm:text-[64px] lg:text-[88px] text-white">
+        Tecnologia, dados e inteligência<br>
+        a serviço da <span class="text-citrine">gestão urbana.</span>
+      </h1>
+      <p class="mt-7 text-[18px] text-white/80 max-w-[720px] mx-auto leading-[1.55]">
+        Transformando a forma de licenciar, planejar e desenvolver cidades.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ MISSÃO -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-12 gap-10">
+      <div class="col-span-12 lg:col-span-5">
+        <h2 class="h-display text-[40px] lg:text-[60px] text-ink leading-[0.97]">O que a gente <span class="text-citrine">acredita.</span></h2>
+      </div>
+      <div class="col-span-12 lg:col-span-7 space-y-5 text-[16px] text-ash leading-[1.6]">
+        <p>O CityPro é construído em parceria com prefeituras que entendem que licenciamento urbanístico <strong class="text-ink">não é burocracia</strong> — é estratégia de desenvolvimento.</p>
+        <p>Acreditamos que decisões urbanas devem ser <strong class="text-ink">baseadas em dados</strong>, não em pilhas de papel. Que a legislação municipal tem que ser <strong class="text-ink">interpretada da mesma forma</strong> em todos os casos. E que o trabalho dos técnicos da prefeitura deve ser analisar, não juntar papel.</p>
+        <p>Por isso construímos uma plataforma que <strong class="text-ink">substitui o vaivém de papéis entre secretarias</strong> por um fluxo digital único, com análise técnica automatizada direto do modelo BIM do projeto.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ HISTÓRIA · timeline -->
+<section class="py-20 lg:py-28 bg-bg2 hairline-t hairline-b">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-14">
+      <h2 class="h-display text-[40px] lg:text-[60px]">De onde viemos.</h2>
+      <p class="mt-5 text-[16px] text-ash">O CityPro nasce de um problema real: a fragmentação entre secretarias que torna o licenciamento lento, opaco e caro.</p>
+    </div>
+    <div class="max-w-[760px] mx-auto space-y-0">
+      <div class="flex items-stretch gap-5">
+        <div class="flex flex-col items-center"><span class="tl-dot mt-2"></span><div class="tl-line"></div></div>
+        <div class="pb-10">
+          <p class="font-sans mono text-[11px] text-ash">2022</p>
+          <h3 class="h-strong text-[18px] text-ink mt-1">Diagnóstico do problema</h3>
+          <p class="text-[14px] text-ash mt-1 leading-[1.55]">Mapeamento de processos de licenciamento em 12 prefeituras. Identificação dos gargalos: secretarias isoladas, retrabalho, legislação não parametrizada.</p>
+        </div>
+      </div>
+      <div class="flex items-stretch gap-5">
+        <div class="flex flex-col items-center"><span class="tl-dot mt-2"></span><div class="tl-line"></div></div>
+        <div class="pb-10">
+          <p class="font-sans mono text-[11px] text-ash">2023</p>
+          <h3 class="h-strong text-[18px] text-ink mt-1">Primeiro protótipo</h3>
+          <p class="text-[14px] text-ash mt-1 leading-[1.55]">O CityPro v1.0 implementado em uma capital regional. Triagem automática reduziu fila de 8 meses para 5 semanas no primeiro ano.</p>
+        </div>
+      </div>
+      <div class="flex items-stretch gap-5">
+        <div class="flex flex-col items-center"><span class="tl-dot mt-2"></span><div class="tl-line"></div></div>
+        <div class="pb-10">
+          <p class="font-sans mono text-[11px] text-ash">2024</p>
+          <h3 class="h-strong text-[18px] text-ink mt-1">Análise BIM entra na plataforma</h3>
+          <p class="text-[14px] text-ash mt-1 leading-[1.55]">Integração com modelos IFC e RVT. Validação automática de volumetria, recuos e índices urbanísticos direto do modelo 3D.</p>
+        </div>
+      </div>
+      <div class="flex items-stretch gap-5">
+        <div class="flex flex-col items-center"><span class="tl-dot mt-2"></span></div>
+        <div>
+          <p class="font-sans mono text-[11px] text-ash">2025+</p>
+          <h3 class="h-strong text-[18px] text-ink mt-1">Expansão para municípios médios e grandes</h3>
+          <p class="text-[14px] text-ash mt-1 leading-[1.55]">O CityPro começa a operar em prefeituras fora da capital. Padronização da plataforma, integrações com sistemas tributários e geo.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ VALORES · 3 cards -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-12">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Os 3 valores que guiam o que a gente faz.</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+      <article class="border border-line rounded-xl p-7">
+        <p class="font-sans mono text-[12px] text-citrine font-bold">VALOR 01</p>
+        <h3 class="h-strong text-[22px] text-ink mt-3">Rastreabilidade total</h3>
+        <p class="text-[14.5px] text-ash mt-3 leading-[1.55]">Cada decisão registra quem, quando, por quê. Cidade e auditor têm a mesma informação, no mesmo formato. Sem improviso jurídico.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <p class="font-sans mono text-[12px] text-citrine font-bold">VALOR 02</p>
+        <h3 class="h-strong text-[22px] text-ink mt-3">Tecnologia a serviço do humano</h3>
+        <p class="text-[14.5px] text-ash mt-3 leading-[1.55]">O CityPro não substitui o técnico. Libera ele do retrabalho mecânico pra ele focar no que exige julgamento humano.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <p class="font-sans mono text-[12px] text-citrine font-bold">VALOR 03</p>
+        <h3 class="h-strong text-[22px] text-ink mt-3">Padrão, não privilégio</h3>
+        <p class="text-[14.5px] text-ash mt-3 leading-[1.55]">A mesma lei, lida da mesma forma, em qualquer ponto do município. Padronização é justiça procedural.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+
+
+<!-- ▸ CTA FINAL -->
+<section class="relative bg-ink text-white py-28 lg:py-36 overflow-hidden">
+  <div class="absolute inset-0 opacity-30 pointer-events-none">
+    <img src="./img/img557.jpg" alt="" aria-hidden="true" class="w-full h-full object-cover" />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink pointer-events-none"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full blur-3xl opacity-25 pointer-events-none" style="background: radial-gradient(closest-side, rgba(245,136,7,0.5), transparent 70%);"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="text-center max-w-[820px] mx-auto">
+      <h2 class="h-display text-[52px] lg:text-[88px] mt-6 text-white leading-[0.95]">Vamos colocar a sua prefeitura <span class="text-citrine">em operação?</span></h2>
+      <p class="mt-7 text-[17px] text-white/70 max-w-[640px] mx-auto leading-[1.55]">
+        30 minutos de conversa sem compromisso. A gente entende o cenário da sua cidade e mostra um piloto sob medida.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a href="./contato.html" class="cta-citr px-7 py-4 rounded text-[14px] font-semibold transition">Falar com Especialista</a>
+        <a href="./plataforma.html" class="border border-white/20 hover:border-white/40 text-white px-7 py-4 rounded text-[14px] font-semibold transition">Conhecer a plataforma</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ▸ FAQ -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-12">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Perguntas frequentes.</h2>
+      <p class="mt-5 text-[16px] text-ash">As dúvidas mais comuns sobre a CityPro, a equipe e a forma de trabalhar.</p>
+    </div>
+    <div class="max-w-[820px] mx-auto space-y-3">
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Quando o CityPro foi fundado?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">O CityPro foi fundada em 2022, a partir de um diagnóstico de licenciamento em 12 prefeituras. O primeiro protótipo entrou em produção em 2023 e a plataforma opera formalmente desde então.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Onde fica a sede?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">A sede é em São Paulo. Atendemos prefeituras de todo o Brasil de forma remota, com visitas técnicas quando o projeto exige.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Quem financia a CityPro?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">O CityPro é uma empresa privada, capital próprio. Não temos investidor de venture capital nem board externo. Decisões são tomadas pela equipe de fundadores.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Quem está na equipe?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">Engenheiros civis, arquitetos urbanistas e desenvolvedores. Boa parte do time passou por prefeituras ou pela indústria de software de gestão pública antes de vir pra cá.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">O CityPro atende outros países?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">Por enquanto, só Brasil. A legislação urbanística brasileira é o que sustenta o produto, e a equipe tá focada em fazer isso bem antes de expandir.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">A empresa é de capital aberto?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">Não. O CityPro é uma sociedade limitada fechada, com capital integralizado pelos sócios-fundadores.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Como é a cultura da empresa?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">Remoto-first, async-friendly, foco em produto e impacto real. Valorizamos autonomia, escrita clara e zero cerimônia. Contratamos gente que resolve problema, não que só discute.</p>
+      </details>
+
+      <details class="group border border-line rounded-xl p-6">
+        <summary class="flex items-center justify-between cursor-pointer list-none">
+          <h3 class="h-strong text-[17px] text-ink">Como falar com vocês?</h3>
+          <span class="ml-4 w-6 h-6 rounded-full border border-line grid place-items-center text-ash group-open:bg-citrine group-open:border-citrine group-open:text-white transition flex-none">
+            <svg viewBox="0 0 24 24" class="w-3 h-3" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 5v14M5 12h14"/></svg>
+          </span>
+        </summary>
+        <p class="mt-4 text-[14.5px] text-ash leading-[1.6]">Manda mensagem na página de <a href="./contato.html" class="text-citrine underline">contato</a>. A primeira conversa é sempre sem compromisso.</p>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<!-- ▸ FOOTER -->
+<footer class="bg-ink2 text-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="col-span-2 md:col-span-1">
+      <img src="./img/branco-laranja.svg" alt="CityPro" class="h-7 w-auto" />
+      <p class="mt-5 text-[13px] text-white/60 max-w-[260px]">Infraestrutura digital decisiva para prefeituras que não podem parar.</p>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">EXPLORE</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./plataforma.html" class="hover:text-white">Plataforma completa</a></li>
+        <li><a href="./index.html#como-funciona" class="hover:text-white">Como funciona</a></li>
+        <li><a href="./index.html#prefeituras" class="hover:text-white">Prefeituras parceiras</a></li>
+        <li><a href="./contato.html" class="hover:text-white">Falar com Especialista</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">CONTATO</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li>(11) 5047-7902</li>
+        <li>contato@citypro.net.br</li>
+        <li>Campo Grande · MS</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">INSTITUCIONAL</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./sobre.html" class="hover:text-white">Sobre a CityPro</a></li>
+        <li><a href="#" class="hover:text-white">Política de privacidade</a></li>
+        <li><a href="#" class="hover:text-white">Termos de uso</a></li>
+        <li><a href="#" class="hover:text-white">Segurança e LGPD</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-5 flex items-center justify-between flex-wrap gap-3">
+      <p class="font-sans mono text-[11px] text-white/50">CITYPRO · TODOS OS DIREITOS RESERVADOS 2026 ©</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
