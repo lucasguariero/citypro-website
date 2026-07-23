@@ -1,0 +1,436 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Plataforma · O CityPro · Licenciamento urbanístico digital para prefeituras</title>
+<meta name="description" content="O CityPro é a plataforma digital que torna o licenciamento urbanístico municipal rastreável, integrado e com análise BIM. Por que tramita meses se pode acontecer em dias." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ink:'#111827', ink2:'#1F2937',
+      bg:'#FFFFFF', bg2:'#F4F5F7', bg3:'#EBECF0',
+      line:'#DFE1E6',
+      ash:'#5E6C84', ashL:'#7A869A',
+      citrine:'#F58807', citrine2:'#FFAA50'
+    },
+    fontFamily: {
+      sans:['Inter','system-ui','sans-serif'],
+      sansT:['Inter Tight','Inter','system-ui','sans-serif'],
+      mono:['JetBrains Mono','ui-monospace','monospace']
+    }
+  }}
+}
+</script>
+<style>
+  html, body { background:#FFFFFF; color:#111827; font-family:'Inter Tight',Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  html { scroll-behavior: smooth; }
+  ::selection { background:#F58807; color:#fff; }
+  .h-display { font-family:'Inter Tight',sans-serif; font-weight:800; letter-spacing:-0.045em; line-height:0.96; }
+  .h-strong  { font-family:'Inter Tight',sans-serif; font-weight:700; letter-spacing:-0.025em; line-height:1.02; }
+  .mono { font-family:'JetBrains Mono',monospace; letter-spacing:0.04em; }
+  .pill-mono { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; padding:5px 11px; border-radius:999px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; }
+  .hairline { border:1px solid #DFE1E6; }
+  .hairline-t { border-top:1px solid #DFE1E6; }
+  .hairline-b { border-bottom:1px solid #DFE1E6; }
+  .cta-citr { background:#F58807; color:#fff; }
+  .cta-citr:hover { background:#C66A00; }
+  #topnav { position: fixed; top:0; left:0; right:0; z-index:50; color:#fff; }
+  #topnav .nav-main { background: transparent; transition: background .3s ease, border-color .3s ease, box-shadow .3s ease; }
+  #topnav.scrolled .nav-main { background: rgba(255,255,255,0.96); border-bottom: 1px solid #DFE1E6; box-shadow: 0 4px 24px -10px rgba(17,24,39,0.15); backdrop-filter: blur(12px); }
+  #topnav .nav-link { color: rgba(255,255,255,0.92); transition: color .3s ease; }
+  #topnav.scrolled .nav-link { color: rgba(17,24,39,0.78); }
+  #topnav .nav-link:hover { color: #ffffff; }
+  #topnav.scrolled .nav-link:hover { color: #111827; }
+  #topnav .nav-cta { background:#F58807; color:#fff; }
+  #topnav .nav-cta:hover { background:#C66A00; }
+  #topnav .logo-img { height:32px; width:auto; transition: opacity .2s ease; display:block; }
+  #topnav .logo-dark, #topnav .logo-light { position:absolute; left:0; top:50%; transform: translateY(-50%); }
+  #topnav .logo-dark { opacity:1; }
+  #topnav .logo-light { opacity:0; }
+  #topnav.scrolled .logo-dark { opacity:0; }
+  #topnav.scrolled .logo-light { opacity:1; }
+  /* HERO ink-only (escuro, sem foto) */
+  .hero-ink { background: #070B12; }
+  .hero-ink::before {
+    content: ""; position: absolute; inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+    background-size: 64px 64px;
+  }
+  .hero-ink::after {
+    content: ""; position: absolute; inset: 0;
+    background: radial-gradient(ellipse at center top, rgba(245,136,7,0.20), transparent 60%);
+    pointer-events: none;
+  }
+  /* diagrama da esteira (3 secretarias) */
+  .sec-node { width: 14px; height: 14px; background: #F58807; border-radius: 9999px; flex: none; box-shadow: 0 0 0 4px rgba(245,136,7,0.15); }
+  .sec-line { flex: 1; height: 1px; background: rgba(255,255,255,0.15); }
+  .sec-card { background: rgba(255,255,255,0.04); border: 1px solid rgba(255,255,255,0.10); border-radius: 14px; padding: 18px 20px; }
+</style>
+</head>
+<body class="bg-bg">
+
+<!-- ▸ NAV FIXA -->
+<nav id="topnav" aria-label="Principal">
+  <div class="nav-main">
+    <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+      <a href="./index.html" class="relative inline-block" style="width:140px; height:32px;" aria-label="CityPro — voltar ao início">
+        <img src="./img/branco-laranja.svg" alt="CityPro" class="logo-img logo-dark" />
+        <img src="./img/preto-laranja.svg"  alt="CityPro" class="logo-img logo-light" />
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 text-[14px] font-sans">
+        <a href="./plataforma.html" class="nav-link text-citrine">Plataforma</a>
+        <a href="./index.html#como-funciona" class="nav-link">Como funciona</a>
+        <a href="./index.html#prefeituras" class="nav-link">Prefeituras</a>
+        <a href="./sobre.html" class="nav-link">Sobre</a>
+        <a href="./contato.html" class="nav-link">Contato</a>
+      </nav>
+      <div class="flex items-center gap-6">
+        <a href="#" class="hidden sm:inline-block text-[13.5px] nav-link">Entrar</a>
+        <a href="./contato.html" class="nav-cta px-4 py-2.5 rounded text-[13.5px] font-semibold transition font-sans">Falar com Especialista</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const nav = document.getElementById('topnav');
+  function onScroll() {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<!-- ▸ HERO · Plataforma -->
+<section class="relative hero-ink text-white py-20 lg:py-32 overflow-hidden">
+  <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 pt-12">
+    <div class="text-center max-w-[960px] mx-auto">
+      <span class="pill-mono border border-white/20 bg-white/10 text-white/85 backdrop-blur-sm mb-7 inline-block">PLATAFORMA COMPLETA</span>
+      <h1 class="h-display text-[48px] sm:text-[64px] lg:text-[88px] text-white">
+        Território, legislação, projetos,<br>
+        decisões e operações num <span class="text-citrine">único fluxo.</span>
+      </h1>
+      <p class="mt-7 text-[18px] text-white/80 max-w-[720px] mx-auto leading-[1.55]">
+        O CityPro é a plataforma digital que organiza o licenciamento urbanístico municipal como um processo integrado — não como um amontoado de secretarias.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a href="./contato.html" class="cta-citr px-6 py-3.5 rounded text-[14px] font-semibold transition inline-flex items-center gap-2 font-sans">
+          Falar com Especialista <span>→</span>
+        </a>
+        <a href="#pilares" class="border border-white/25 hover:border-white/50 text-white px-6 py-3.5 rounded text-[14px] font-semibold transition backdrop-blur-sm">Ver pilares</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ 5 PILARES -->
+<section id="pilares" class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-14">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Os 5 pilares da plataforma.</h2>
+      <p class="mt-5 text-[16px] text-ash">Cada pilar resolve uma parte do problema. Juntos, sustentam o licenciamento inteiro.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6l6-3 6 3 6-3v15l-6 3-6-3-6 3V6zM9 3v15M15 6v15"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">1. Território</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Zoneamento, uso do solo, restrições ambientais e toda a base geográfica do município num único mapa. Cada projeto vê o contexto territorial em tempo real.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 6h16M4 12h10M4 18h16"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">2. Legislação</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Regras urbanísticas viram regras de sistema — parametrizadas e versionadas. Sem interpretação manual, sem subjetividade na análise.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2l9 4-9 4-9-4 9-4zM3 10l9 4 9-4M3 14l9 4 9-4"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">3. Projetos</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Análise técnica automatizada direto do modelo BIM. Leitura de volumetria, índices e parâmetros urbanísticos sem intervenção manual.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4M12 2l9 4v6c0 5-3.5 9-9 10-5.5-1-9-5-9-10V6l9-4z"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">4. Decisões</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Parecer final registrado com histórico completo. Trilha imutável de cada análise. Pronto pra auditoria do TCU.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 7l9-5 9 5v10l-9 5-9-5V7zM12 2v20M3 7l9 5 9-5"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">5. Operações</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Triagem automática por estágio, atribuição por responsável, urgência destacada. Caixa de entrada que prioriza sozinha.</p>
+      </article>
+      <article class="border border-line rounded-xl p-7">
+        <div class="w-10 h-10 rounded grid place-items-center bg-citrine/10 text-citrine mb-5">
+          <svg viewBox="0 0 24 24" class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M7 17l4-4 4 4 5-6"/></svg>
+        </div>
+        <h3 class="h-strong text-[20px] text-ink">6. Painel do Secretário</h3>
+        <p class="text-[14px] text-ash mt-2 leading-[1.55]">Visão executiva de tudo: KPIs de volume, prazo médio, gargalos por secretaria, gargalos por estágio.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ COMO FLUI · esteira entre secretarias (DARK) -->
+<section class="relative py-24 lg:py-32 bg-ink text-white overflow-hidden">
+  <div class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 64px 64px;"></div>
+  <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-14">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Um fluxo, várias secretarias.</h2>
+      <p class="mt-5 text-[16.5px] text-white/70">Obras, Mobilidade, Meio Ambiente, Fazenda, Planejamento e Vigilância Sanitária operam num único corredor — sem ida e volta, sem retrabalho.</p>
+    </div>
+
+    <!-- esteira horizontal em desktop, vertical em mobile -->
+    <div class="flex flex-col lg:flex-row items-stretch gap-3">
+      <div class="sec-card flex-1">
+        <p class="font-sans mono text-[11px] text-citrine">01</p>
+        <p class="h-strong text-[16px] mt-2">Obras</p>
+        <p class="text-[12.5px] text-white/60 mt-1 leading-[1.5]">Análise estrutural e conformidade técnica</p>
+      </div>
+      <div class="flex items-center justify-center"><span class="sec-node"></span><span class="sec-line hidden lg:block"></span></div>
+      <div class="sec-card flex-1">
+        <p class="font-sans mono text-[11px] text-citrine">02</p>
+        <p class="h-strong text-[16px] mt-2">Mobilidade</p>
+        <p class="text-[12.5px] text-white/60 mt-1 leading-[1.5]">Impacto viário, acessibilidade, mobilidade ativa</p>
+      </div>
+      <div class="flex items-center justify-center"><span class="sec-node"></span><span class="sec-line hidden lg:block"></span></div>
+      <div class="sec-card flex-1">
+        <p class="font-sans mono text-[11px] text-citrine">03</p>
+        <p class="h-strong text-[16px] mt-2">Meio Ambiente</p>
+        <p class="text-[12.5px] text-white/60 mt-1 leading-[1.5]">Restrições ambientais, supressão, compensação</p>
+      </div>
+      <div class="flex items-center justify-center"><span class="sec-node"></span><span class="sec-line hidden lg:block"></span></div>
+      <div class="sec-card flex-1">
+        <p class="font-sans mono text-[11px] text-citrine">04</p>
+        <p class="h-strong text-[16px] mt-2">Fazenda</p>
+        <p class="text-[12.5px] text-white/60 mt-1 leading-[1.5]">Tributos, taxas, contribuição de melhoria</p>
+      </div>
+      <div class="flex items-center justify-center"><span class="sec-node"></span><span class="sec-line hidden lg:block"></span></div>
+      <div class="sec-card flex-1 border-citrine/40 bg-citrine/10">
+        <p class="font-sans mono text-[11px] text-citrine">05</p>
+        <p class="h-strong text-[16px] mt-2">Alvará</p>
+        <p class="text-[12.5px] text-white/70 mt-1 leading-[1.5]">Documento final emitido e protocolado</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ ANÁLISE BIM · detalhamento técnico -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-12 gap-10 items-center">
+      <!-- SVG do wireframe 3D -->
+      <div class="col-span-12 lg:col-span-7 order-2 lg:order-1">
+        <div class="rounded-xl overflow-hidden hairline-bright border bg-[#0A1218] p-6 lg:p-10 aspect-square">
+          <svg viewBox="0 0 600 360" class="w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <pattern id="grid-3d-p" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.15"/>
+              </pattern>
+            </defs>
+            <rect width="600" height="360" fill="#0A1218"/>
+            <rect width="600" height="360" fill="url(#grid-3d-p)"/>
+            <polygon points="80,300 480,300 520,330 120,330" fill="#111827" stroke="#FFFFFF" stroke-width="0.4" opacity="0.5"/>
+            <g stroke="#FFFFFF" stroke-width="0.6" opacity="0.5" fill="none">
+              <rect x="200" y="270" width="220" height="60"/>
+              <line x1="200" y1="290" x2="420" y2="290"/>
+              <line x1="200" y1="310" x2="420" y2="310"/>
+              <line x1="270" y1="270" x2="270" y2="330"/>
+              <line x1="350" y1="270" x2="350" y2="330"/>
+            </g>
+            <text x="310" y="350" font-family="JetBrains Mono" font-size="9" fill="#7A869A" text-anchor="middle">PLANTA BAIXA · PAV. TÉRREO</text>
+            <g>
+              <polygon points="240,120 480,120 480,250 240,250" fill="rgba(245,136,7,0.08)" stroke="#F58807" stroke-width="0.6"/>
+              <polygon points="200,170 440,170 440,300 200,300" fill="rgba(245,136,7,0.05)" stroke="#F58807" stroke-width="1.4"/>
+              <polygon points="440,170 480,120 480,250 440,300" fill="rgba(255,170,80,0.08)" stroke="#FFAA50" stroke-width="1.4"/>
+              <line x1="200" y1="170" x2="200" y2="300" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="200" y1="170" x2="440" y2="170" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="200" y1="170" x2="240" y2="120" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="440" y1="170" x2="480" y2="120" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="240" y1="120" x2="480" y2="120" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="120" x2="240" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="480" y1="120" x2="480" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="250" x2="480" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="187" x2="480" y2="187" stroke="#FFAA50" stroke-width="0.6" opacity="0.6"/>
+              <line x1="240" y1="208" x2="480" y2="208" stroke="#FFAA50" stroke-width="0.6" opacity="0.6"/>
+              <line x1="160" y1="120" x2="160" y2="300" stroke="#F58807" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="155" y1="120" x2="165" y2="120" stroke="#F58807" stroke-width="1.5"/>
+              <line x1="155" y1="300" x2="165" y2="300" stroke="#F58807" stroke-width="1.5"/>
+              <rect x="120" y="200" width="44" height="20" fill="#111827" stroke="#F58807" stroke-width="0.5"/>
+              <text x="142" y="214" font-family="JetBrains Mono" font-size="10" fill="#FFAA50" text-anchor="middle">36,4 m</text>
+              <circle cx="200" cy="170" r="6" fill="#F58807"/>
+              <circle cx="200" cy="170" r="12" fill="none" stroke="#F58807" stroke-width="1" opacity="0.5"/>
+            </g>
+            <g transform="translate(540 60)">
+              <rect width="40" height="26" rx="3" fill="#111827" stroke="#F58807" stroke-width="0.5"/>
+              <text x="20" y="17" font-family="JetBrains Mono" font-size="10" fill="#FFAA50" text-anchor="middle">BIM</text>
+            </g>
+            <text x="60" y="55" font-family="JetBrains Mono" font-size="10" fill="#FFAA50">ANÁLISE TÉCNICA · 3D WIREFRAME</text>
+            <text x="60" y="70" font-family="JetBrains Mono" font-size="9" fill="#7A869A">VOLUMETRIA · ÍNDICES · PARÂMETROS</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-5 order-1 lg:order-2">
+        <h2 class="h-display text-[40px] lg:text-[56px] text-ink leading-[0.97]">Análise técnica direto do modelo <span class="text-citrine">BIM.</span></h2>
+        <p class="mt-5 text-[16.5px] text-ash leading-[1.55]">
+          O CityPro lê o modelo 3D do projeto (`.ifc`, `.rvt`, `.nwd`) e verifica conformidade com a legislação municipal automaticamente — sem técnico conferindo item a item.
+        </p>
+        <ul class="mt-7 space-y-3 text-[14.5px]">
+          <li class="flex items-start gap-3"><span class="text-citrine mt-1">✓</span><span class="text-ink"><strong>Leitura automática</strong> de parâmetros urbanísticos do modelo</span></li>
+          <li class="flex items-start gap-3"><span class="text-citrine mt-1">✓</span><span class="text-ink"><strong>Validação de volumetria</strong> e índices (gabarito, taxa de ocupação, Coeficiente)</span></li>
+          <li class="flex items-start gap-3"><span class="text-citrine mt-1">✓</span><span class="text-ink"><strong>Recuos, afastamentos e gabarito</strong> conferidos contra o zoneamento</span></li>
+          <li class="flex items-start gap-3"><span class="text-citrine mt-1">✓</span><span class="text-ink"><strong>Sombreamento, permeabilidade</strong> e cobertura vegetal validados</span></li>
+          <li class="flex items-start gap-3"><span class="text-citrine mt-1">✓</span><span class="text-ink"><strong>Acessibilidade e vagas de garagem</strong> parametrizadas por uso</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ INTEGRAÇÃO · API + sistemas legados -->
+<section class="py-20 lg:py-28 bg-bg2 hairline-t hairline-b">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-12">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Integra com o que a prefeitura já usa.</h2>
+      <p class="mt-5 text-[16px] text-ash">API REST documentada, conectores prontos para os principais sistemas municipais, e importação de processos legados em PDF.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3">
+      <div class="bg-white border border-line rounded-xl p-6">
+        <p class="font-sans mono text-[11px] text-ash">API</p>
+        <p class="h-strong text-[18px] text-ink mt-2">REST documentada</p>
+        <p class="text-[13px] text-ash mt-2">Endpoints pra consulta de processos, abertura de protocolos e download de alvarás.</p>
+      </div>
+      <div class="bg-white border border-line rounded-xl p-6">
+        <p class="font-sans mono text-[11px] text-ash">CONECTOR</p>
+        <p class="h-strong text-[18px] text-ink mt-2">Tributos & IPTU</p>
+        <p class="text-[13px] text-ash mt-2">Integração com sistemas tributários do município. Cria o tributo na emissão do alvará.</p>
+      </div>
+      <div class="bg-white border border-line rounded-xl p-6">
+        <p class="font-sans mono text-[11px] text-ash">CONECTOR</p>
+        <p class="h-strong text-[18px] text-ink mt-2">Geo & Mapas</p>
+        <p class="text-[13px] text-ash mt-2">Integração com QGIS, GeoServer e bases geográficas municipais. WMS e WFS.</p>
+      </div>
+      <div class="bg-white border border-line rounded-xl p-6">
+        <p class="font-sans mono text-[11px] text-ash">IMPORTAÇÃO</p>
+        <p class="h-strong text-[18px] text-ink mt-2">PDFs legados</p>
+        <p class="text-[13px] text-ash mt-2">Importa processos antigos em PDF, identifica metadados e traz pro fluxo novo.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ SUSTENTAÇÃO · 4 cards -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-12">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Garantia de continuidade.</h2>
+      <p class="mt-5 text-[16px] text-ash">Operações que não podem parar também não podem parar de funcionar.</p>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <article class="rounded-2xl bg-ink text-white p-8">
+        <p class="font-sans mono text-[11px] text-white/50">UPTIME</p>
+        <p class="h-display text-[56px] mt-4 leading-none">99,9<span class="text-citrine">%</span></p>
+        <p class="text-[13px] text-white/60 mt-3 leading-[1.5]">SLA de disponibilidade contínua.</p>
+      </article>
+      <article class="rounded-2xl bg-citrine text-white p-8">
+        <p class="font-sans mono text-[11px] opacity-80">SEGURANÇA</p>
+        <p class="h-display text-[56px] mt-4 leading-none">ISO</p>
+        <p class="h-strong text-[18px] mt-1 leading-none">27001</p>
+        <p class="text-[13px] opacity-90 mt-3 leading-[1.4]">auditado e certificado.</p>
+      </article>
+      <article class="rounded-2xl bg-bg2 border border-line text-ink p-8">
+        <p class="font-sans mono text-[11px] text-ash">SUPORTE</p>
+        <p class="h-display text-[56px] mt-4 leading-none">24/7</p>
+        <p class="text-[13px] text-ash mt-3 leading-[1.5]">Equipe técnica especializada.</p>
+      </article>
+      <article class="rounded-2xl bg-white border border-line text-ink p-8">
+        <p class="font-sans mono text-[11px] text-ash">ACESSO</p>
+        <p class="h-display text-[56px] mt-4 leading-none">API</p>
+        <p class="text-[13px] text-ash mt-3 leading-[1.5]">Integração com sistemas da prefeitura.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ CTA FINAL -->
+<section id="contato" class="relative bg-ink text-white py-28 lg:py-36 overflow-hidden">
+  <div class="absolute inset-0 opacity-30 pointer-events-none">
+    <img src="./img/img557.jpg" alt="" aria-hidden="true" class="w-full h-full object-cover" />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink pointer-events-none"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full blur-3xl opacity-25 pointer-events-none" style="background: radial-gradient(closest-side, rgba(245,136,7,0.5), transparent 70%);"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="text-center max-w-[820px] mx-auto">
+      <h2 class="h-display text-[52px] lg:text-[88px] mt-6 text-white leading-[0.95]">Pronto pra ver O CityPro no seu <span class="text-citrine">município?</span></h2>
+      <p class="mt-7 text-[17px] text-white/70 max-w-[640px] mx-auto leading-[1.55]">
+        A primeira conversa dura uns 30 minutos. A gente entende a estrutura atual da sua prefeitura e mostra um piloto adaptado ao seu caso.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a href="./contato.html" class="cta-citr px-7 py-4 rounded text-[14px] font-semibold transition">Falar com Especialista</a>
+        <a href="./index.html" class="border border-white/20 hover:border-white/40 text-white px-7 py-4 rounded text-[14px] font-semibold transition">Voltar ao início</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ FOOTER -->
+<footer class="bg-ink2 text-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="col-span-2 md:col-span-1">
+      <img src="./img/branco-laranja.svg" alt="CityPro" class="h-7 w-auto" />
+      <p class="mt-5 text-[13px] text-white/60 max-w-[260px]">Infraestrutura digital decisiva para prefeituras que não podem parar.</p>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">EXPLORE</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./plataforma.html" class="hover:text-white">Plataforma completa</a></li>
+        <li><a href="./index.html#como-funciona" class="hover:text-white">Como funciona</a></li>
+        <li><a href="./index.html#prefeituras" class="hover:text-white">Prefeituras parceiras</a></li>
+        <li><a href="./contato.html" class="hover:text-white">Falar com Especialista</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">CONTATO</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li>(11) 5047-7902</li>
+        <li>contato@citypro.net.br</li>
+        <li>Campo Grande · MS</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">INSTITUCIONAL</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./sobre.html" class="hover:text-white">Sobre a CityPro</a></li>
+        <li><a href="#" class="hover:text-white">Política de privacidade</a></li>
+        <li><a href="#" class="hover:text-white">Termos de uso</a></li>
+        <li><a href="#" class="hover:text-white">Segurança e LGPD</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-5 flex items-center justify-between flex-wrap gap-3">
+      <p class="font-sans mono text-[11px] text-white/50">CITYPRO · TODOS OS DIREITOS RESERVADOS 2026 ©</p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

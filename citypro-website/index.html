@@ -1,0 +1,511 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>O CityPro · Licenciamento urbanístico digital para prefeituras</title>
+<meta name="description" content="O CityPro é a plataforma digital que torna o licenciamento urbanístico municipal rastreável, integrado e com análise BIM. Por que tramita meses se pode acontecer em dias." />
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Inter+Tight:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.tailwindcss.com"></script>
+<script>
+tailwind.config = {
+  theme: { extend: {
+    colors: {
+      ink:'#111827', ink2:'#1F2937',
+      bg:'#FFFFFF', bg2:'#F4F5F7', bg3:'#EBECF0',
+      line:'#DFE1E6',
+      ash:'#5E6C84', ashL:'#7A869A',
+      citrine:'#F58807', citrine2:'#FFAA50'
+    },
+    fontFamily: {
+      sans:['Inter','system-ui','sans-serif'],
+      sansT:['Inter Tight','Inter','system-ui','sans-serif'],
+      mono:['JetBrains Mono','ui-monospace','monospace']
+    }
+  }}
+}
+</script>
+<style>
+  html, body { background:#FFFFFF; color:#111827; font-family:'Inter Tight',Inter,system-ui,sans-serif; -webkit-font-smoothing:antialiased; }
+  html { scroll-behavior: smooth; }
+  ::selection { background:#F58807; color:#fff; }
+  .h-display { font-family:'Inter Tight',sans-serif; font-weight:800; letter-spacing:-0.045em; line-height:0.96; }
+  .h-strong  { font-family:'Inter Tight',sans-serif; font-weight:700; letter-spacing:-0.025em; line-height:1.02; }
+  .mono { font-family:'JetBrains Mono',monospace; letter-spacing:0.04em; }
+  .pill-mono { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:0.06em; padding:5px 11px; border-radius:999px; }
+  .eyebrow { font-family:'JetBrains Mono',monospace; font-size:11px; letter-spacing:.18em; text-transform:uppercase; }
+  .hairline { border:1px solid #DFE1E6; }
+  .hairline-t { border-top:1px solid #DFE1E6; }
+  .hairline-b { border-bottom:1px solid #DFE1E6; }
+  .cta-citr { background:#F58807; color:#fff; }
+  .cta-citr:hover { background:#C66A00; }
+  .reveal { opacity:0; transform:translateY(10px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal.in { opacity:1; transform:translateY(0); }
+  @media (prefers-reduced-motion: reduce) { .reveal { opacity:1; transform:none; transition:none; } }
+  /* NAV · só a nav principal · transparente sobre hero, branca com blur no scroll */
+  #topnav { position: fixed; top:0; left:0; right:0; z-index:50; color:#fff; }
+  #topnav .nav-main { background: transparent; transition: background .3s ease, border-color .3s ease, box-shadow .3s ease; }
+  #topnav.scrolled .nav-main { background: rgba(255,255,255,0.96); border-bottom: 1px solid #DFE1E6; box-shadow: 0 4px 24px -10px rgba(17,24,39,0.15); backdrop-filter: blur(12px); }
+  /* links */
+  #topnav .nav-link { color: rgba(255,255,255,0.92); transition: color .3s ease; }
+  #topnav.scrolled .nav-link { color: rgba(17,24,39,0.78); }
+  #topnav .nav-link:hover { color: #ffffff; }
+  #topnav.scrolled .nav-link:hover { color: #111827; }
+  #topnav .nav-cta { background:#F58807; color:#fff; }
+  #topnav .nav-cta:hover { background:#C66A00; }
+  /* logo · controla troca visual via classes (não precisa de 2 SVGs no JS) */
+  #topnav .logo-img { height:32px; width:auto; transition: opacity .2s ease; display:block; }
+  #topnav .logo-dark, #topnav .logo-light { position:absolute; left:0; top:50%; transform: translateY(-50%); }
+  #topnav .logo-dark { opacity:1; }
+  #topnav .logo-light { opacity:0; }
+  #topnav.scrolled .logo-dark { opacity:0; }
+  #topnav.scrolled .logo-light { opacity:1; }
+</style>
+</head>
+<body class="bg-bg">
+
+<!-- ▸ NAV FIXA · transparente sobre hero, branca com blur no scroll -->
+<nav id="topnav" aria-label="Principal">
+  <div class="nav-main">
+    <div class="relative max-w-[1280px] mx-auto px-6 lg:px-10 h-16 flex items-center justify-between">
+      <a href="#" class="relative inline-block" style="width:140px; height:32px;" aria-label="CityPro — voltar ao topo">
+        <!-- branco-laranja (sobre hero) -->
+        <img src="./img/branco-laranja.svg" alt="CityPro" class="logo-img logo-dark" />
+        <!-- preto-laranja (sobre branco do scrolled) -->
+        <img src="./img/preto-laranja.svg"  alt="CityPro" class="logo-img logo-light" />
+      </a>
+      <nav class="hidden lg:flex items-center gap-7 text-[14px] font-sans">
+        <a href="./plataforma.html" class="nav-link">Plataforma</a>
+        <a href="#como-funciona" class="nav-link">Como funciona</a>
+        <a href="#prefeituras" class="nav-link">Prefeituras</a>
+        <a href="./sobre.html" class="nav-link">Sobre</a>
+        <a href="./contato.html" class="nav-link">Contato</a>
+      </nav>
+      <div class="flex items-center gap-6">
+        <a href="#" class="hidden sm:inline-block text-[13.5px] nav-link">Entrar</a>
+        <a href="./contato.html" class="nav-cta px-4 py-2.5 rounded text-[13.5px] font-semibold transition font-sans">Falar com Especialista</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<script>
+  // ativa estado scrolled do nav (a partir de 60px)
+  const nav = document.getElementById('topnav');
+  function onScroll() {
+    if (window.scrollY > 60) nav.classList.add('scrolled');
+    else nav.classList.remove('scrolled');
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+</script>
+
+<!-- ▸ HERO -->
+<section class="relative bg-ink text-white overflow-hidden">
+  <img src="./img/img240.jpg" alt="" aria-hidden="true" class="absolute inset-0 w-full h-full object-cover" />
+  <div class="absolute inset-0 bg-gradient-to-b from-ink/85 via-ink/60 to-ink/90 pointer-events-none"></div>
+  <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(ellipse at center top, rgba(245,136,7,0.20), transparent 60%);"></div>
+
+  <!-- padding-top para compensar a nav fixa (64px) -->
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative pt-24 lg:pt-32 pb-28 lg:pb-44">
+    <div class="text-center max-w-[960px] mx-auto">
+      <div class="flex flex-wrap items-center justify-center gap-2 mb-7">
+        <span class="pill-mono border border-white/20 bg-white/10 text-white/85 backdrop-blur-sm">PLATAFORMA DE LICENCIAMENTO URBANÍSTICO</span>
+      </div>
+      <h1 class="h-display text-[56px] sm:text-[80px] lg:text-[112px] text-white">
+        Sua cidade não precisa mais escolher entre <span class="text-citrine">rigor</span> e <span class="text-citrine">velocidade.</span>
+      </h1>
+      <p class="mt-7 text-[18px] text-white/80 max-w-[720px] mx-auto leading-[1.55]">
+        O CityPro é o licenciamento urbanístico <strong class="text-white">digital</strong> de ponta a ponta. Portas para quem decide. Agentes para quem analisa. Para quem empreende. BIM para quem precisa enxergar o projeto em três dimensões.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a href="./contato.html" class="cta-citr px-6 py-3.5 rounded text-[14px] font-semibold transition inline-flex items-center gap-2 font-sans">
+          Quero ver como funciona <span>→</span>
+        </a>
+        <a href="#como-funciona" class="border border-white/25 hover:border-white/50 text-white px-6 py-3.5 rounded text-[14px] font-semibold transition backdrop-blur-sm">Ver funcionalidades</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ DEMO · vídeo (segunda seção) -->
+<section class="bg-ink text-white py-20 lg:py-28 relative overflow-hidden">
+  <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] rounded-full blur-3xl opacity-20 pointer-events-none" style="background: radial-gradient(closest-side, rgba(245,136,7,0.45), transparent 70%);"></div>
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="text-center max-w-[760px] mx-auto mb-10">
+      <h2 class="h-display text-[40px] lg:text-[60px]">A cidade evolui quando o licenciamento para de ser o <span class="text-citrine">gargalo.</span></h2>
+      <p class="mt-5 text-[16.5px] text-white/70 max-w-[620px] mx-auto leading-[1.55]">
+        De processo a aprovação, com cada etapa rastreada, cada decisão documentada e cada projeto em tela. Demonstre pra sua equipe em 2 minutos.
+      </p>
+    </div>
+    <div class="max-w-[960px] mx-auto">
+      <div class="aspect-video relative bg-gradient-to-br from-[#0F1A24] via-[#0A1218] to-[#070B12] grid place-items-center overflow-hidden rounded-2xl border border-white/10">
+        <div class="absolute inset-0 pointer-events-none" style="background: radial-gradient(circle at center, rgba(245,136,7,0.18), transparent 60%);"></div>
+        <button type="button" aria-label="Reproduzir vídeo" class="relative z-10 mx-auto w-20 h-20 rounded-full bg-citrine hover:bg-citrineD text-white grid place-items-center transition shadow-[0_20px_60px_-15px_rgba(245,136,7,0.6)]">
+          <svg viewBox="0 0 24 24" class="w-7 h-7 ml-1" fill="currentColor"><path d="M5 3v18l16-9L5 3z"/></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ INTRO SUITE -->
+<section class="relative py-24 lg:py-32 bg-ink text-white overflow-hidden">
+  <div class="absolute inset-0 opacity-30" style="background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 64px 64px;"></div>
+  <div class="absolute top-1/2 -right-32 -translate-y-1/2 w-[480px] h-[480px] rounded-full blur-3xl opacity-30 pointer-events-none" style="background: radial-gradient(closest-side, rgba(245,136,7,0.45), transparent 70%);"></div>
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="grid grid-cols-12 gap-8 items-end">
+      <div class="col-span-12 lg:col-span-8">
+        <span class="pill-mono border border-white/15 bg-white/5 text-white/70 inline-flex items-center gap-2 mb-7">
+          SUITE COMPLETA DE LICENCIAMENTO
+        </span>
+        <h2 class="h-display text-[48px] lg:text-[72px] text-white leading-[0.96]">
+          Transforme a forma como sua equipe <span class="text-citrine">opera.</span>
+        </h2>
+      </div>
+      <div class="col-span-12 lg:col-span-4 lg:pb-3">
+        <p class="text-[16px] text-white/70 leading-[1.55] max-w-[360px]">
+          Ferramentas integradas para prefeituras que querem substituir o caos de papéis por um fluxo único. Em operação em municípios como Santarém, Belo Horizonte e Florianópolis.
+        </p>
+        <div class="mt-7 flex items-center gap-6">
+          <div>
+            <p class="font-sans mono text-[11px] text-white/50">PREFEITURAS ATIVAS</p>
+            <p class="h-display text-[36px] text-citrine mt-1 leading-none">12+</p>
+          </div>
+          <div class="w-px h-12 bg-white/15"></div>
+          <div>
+            <p class="font-sans mono text-[11px] text-white/50">ALVARÁS / MÊS</p>
+            <p class="h-display text-[36px] text-white mt-1 leading-none">141</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ PLATAFORMA · 3 CAMADAS -->
+<section id="plataforma" class="bg-bg2 hairline-t hairline-b">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-20 lg:py-28">
+    <div class="grid grid-cols-12 gap-8 lg:gap-12">
+      <div class="col-span-12 lg:col-span-5">
+        <p class="eyebrow text-citrine mb-4">Plataforma</p>
+        <h2 class="h-display text-[40px] lg:text-[56px] text-ink leading-[1]">Tudo que a prefeitura precisa, em uma só plataforma.</h2>
+        <p class="mt-5 text-[15.5px] text-ash leading-[1.55] max-w-[420px]">Três camadas integradas que sustentam o licenciamento inteiro — do pedido ao alvará, com cada secretaria na mesma página.</p>
+        <a href="./contato.html" class="mt-7 inline-flex items-center gap-2 text-ink font-semibold text-[14px] hover:text-citrine transition">
+          Conhecer plataforma <span>→</span>
+        </a>
+      </div>
+      <div class="col-span-12 lg:col-span-7 space-y-3">
+        <article class="bg-white border border-line rounded-xl p-5 lg:p-6 flex items-start gap-5">
+          <span class="font-sans mono text-[12px] text-citrine font-bold mt-1">01</span>
+          <div>
+            <h3 class="h-strong text-[18px] lg:text-[20px] text-ink">Território integrado</h3>
+            <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Zoneamento, uso do solo e restrições ambientais centralizados num único mapa da cidade. Tudo que o projeto toca, visível na mesma tela.</p>
+          </div>
+        </article>
+        <article class="bg-white border border-line rounded-xl p-5 lg:p-6 flex items-start gap-5">
+          <span class="font-sans mono text-[12px] text-citrine font-bold mt-1">02</span>
+          <div>
+            <h3 class="h-strong text-[18px] lg:text-[20px] text-ink">Legislação parametrizada</h3>
+            <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Regras urbanísticas viram regras de sistema. Sem interpretação manual, sem subjetividade. Padronização entre todos os analistas.</p>
+          </div>
+        </article>
+        <article class="bg-white border border-line rounded-xl p-5 lg:p-6 flex items-start gap-5">
+          <span class="font-sans mono text-[12px] text-citrine font-bold mt-1">03</span>
+          <div>
+            <h3 class="h-strong text-[18px] lg:text-[20px] text-ink">Projetos em BIM</h3>
+            <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Análise técnica automatizada direto do modelo 3D. Decisão em horas, não em meses. Com leitura automática de volumetria, índices e parâmetros.</p>
+          </div>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ DASHBOARD · img57 -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 grid grid-cols-12 gap-10 items-center">
+    <div class="col-span-12 lg:col-span-5">
+      <p class="eyebrow text-citrine mb-4">Painel do Secretário</p>
+      <h2 class="h-display text-[40px] lg:text-[56px] text-ink leading-[1]">A equipe certa, com a <span class="text-citrine">visão certa.</span></h2>
+      <p class="mt-5 text-[16.5px] text-ash leading-[1.55]">
+        O CityPro centraliza protocolos, análises técnicas e decisões num único painel. Todos veem a mesma informação — sem fragmentação, sem retrabalho, sem fila no balcão.
+      </p>
+      <div class="mt-7 flex flex-wrap gap-2">
+        <span class="pill-mono border border-line text-ash bg-white">ANÁLISE</span>
+        <span class="pill-mono border border-line text-ash bg-white">CONFORMIDADE</span>
+        <span class="pill-mono border border-line text-ash bg-white">DECISÃO</span>
+        <span class="pill-mono border border-line text-ash bg-white">AUDITORIA</span>
+      </div>
+      <a href="#" class="mt-7 inline-flex items-center gap-2 text-ink font-semibold text-[14px] hover:text-citrine transition">
+        Explorar painel <span>→</span>
+      </a>
+    </div>
+    <div class="col-span-12 lg:col-span-7">
+      <div class="aspect-square overflow-hidden rounded-2xl">
+        <img src="./img/img57.jpg" alt="CityPro · Dashboard executivo com KPIs e gráficos" class="w-full h-full object-cover block" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ COMO FUNCIONA -->
+<section id="como-funciona" class="bg-bg2 hairline-t hairline-b py-20 lg:py-28">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-14">
+      <span class="eyebrow text-citrine">Como funciona</span>
+      <h2 class="h-display text-[40px] lg:text-[60px] mt-4">Do pedido ao alvará em um fluxo só.</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <article class="bg-white border border-line rounded-xl p-6">
+        <div class="w-9 h-9 rounded grid place-items-center bg-citrine/10 text-citrine mb-5"><span class="h-strong text-[14px]">01</span></div>
+        <h3 class="h-strong text-[18px] text-ink">A cidade abre a porta</h3>
+        <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">No Portal da cidade, o próprio projeto é o que precisa ter para estar dentro da lei. Cria os pedidos e a transparência desde o primeiro clique.</p>
+      </article>
+      <article class="bg-white border border-line rounded-xl p-6">
+        <div class="w-9 h-9 rounded grid place-items-center bg-citrine/10 text-citrine mb-5"><span class="h-strong text-[14px]">02</span></div>
+        <h3 class="h-strong text-[18px] text-ink">Processo sem fila presencial</h3>
+        <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Fora protocolos e secretarias isoladas. Tudo no mesmo fluxo digital — onde se abre e se dá parecer final.</p>
+      </article>
+      <article class="bg-white border border-line rounded-xl p-6">
+        <div class="w-9 h-9 rounded grid place-items-center bg-citrine/10 text-citrine mb-5"><span class="h-strong text-[14px]">03</span></div>
+        <h3 class="h-strong text-[18px] text-ink">Análise técnica de verdade</h3>
+        <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Compatibilidade geometria, volumetria e parâmetros urbanísticos direto do modelo BIM. Padrão em todos os pedidos.</p>
+      </article>
+      <article class="bg-white border border-line rounded-xl p-6">
+        <div class="w-9 h-9 rounded grid place-items-center bg-citrine/10 text-citrine mb-5"><span class="h-strong text-[14px]">04</span></div>
+        <h3 class="h-strong text-[18px] text-ink">O projeto em três dimensões</h3>
+        <p class="text-[13.5px] text-ash mt-2 leading-[1.55]">Cada projeto entra no CityPro em 3D. O analista vê em perspectiva — quem decide tem mais segurança, menos surpresa de obra.</p>
+      </article>
+    </div>
+  </div>
+</section>
+<!-- ▸ ANÁLISE BIM · SVG inline -->
+<section class="relative bg-ink text-white py-20 lg:py-28 overflow-hidden">
+  <div class="absolute inset-0 opacity-30 pointer-events-none" style="background-image: linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px); background-size: 64px 64px;"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="grid grid-cols-12 gap-10 items-center">
+      <div class="col-span-12 lg:col-span-7 order-2 lg:order-1">
+        <div class="aspect-square overflow-hidden rounded-2xl border bg-[#0A1218] p-6 lg:p-10 flex items-center justify-center">
+          <svg viewBox="0 0 600 360" class="w-full h-full" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+            <defs>
+              <pattern id="grid-3d" width="20" height="20" patternUnits="userSpaceOnUse">
+                <path d="M 20 0 L 0 0 0 20" fill="none" stroke="#FFFFFF" stroke-width="0.3" opacity="0.15"/>
+              </pattern>
+            </defs>
+            <rect width="600" height="360" fill="#0A1218"/>
+            <rect width="600" height="360" fill="url(#grid-3d)"/>
+            <polygon points="80,300 480,300 520,330 120,330" fill="#111827" stroke="#FFFFFF" stroke-width="0.4" opacity="0.5"/>
+            <g stroke="#FFFFFF" stroke-width="0.6" opacity="0.5" fill="none">
+              <rect x="200" y="270" width="220" height="60"/>
+              <line x1="200" y1="290" x2="420" y2="290"/>
+              <line x1="200" y1="310" x2="420" y2="310"/>
+              <line x1="270" y1="270" x2="270" y2="330"/>
+              <line x1="350" y1="270" x2="350" y2="330"/>
+            </g>
+            <text x="310" y="350" font-family="JetBrains Mono" font-size="9" fill="#7A869A" text-anchor="middle">PLANTA BAIXA · PAV. TÉRREO</text>
+            <g>
+              <polygon points="240,120 480,120 480,250 240,250" fill="rgba(245,136,7,0.08)" stroke="#F58807" stroke-width="0.6"/>
+              <polygon points="200,170 440,170 440,300 200,300" fill="rgba(245,136,7,0.05)" stroke="#F58807" stroke-width="1.4"/>
+              <polygon points="440,170 480,120 480,250 440,300" fill="rgba(255,170,80,0.08)" stroke="#FFAA50" stroke-width="1.4"/>
+              <line x1="200" y1="170" x2="200" y2="300" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="200" y1="170" x2="440" y2="170" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="200" y1="170" x2="240" y2="120" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="440" y1="170" x2="480" y2="120" stroke="#F58807" stroke-width="2.2"/>
+              <line x1="240" y1="120" x2="480" y2="120" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="120" x2="240" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="480" y1="120" x2="480" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="250" x2="480" y2="250" stroke="#FFFFFF" stroke-width="0.5" opacity="0.5"/>
+              <line x1="240" y1="187" x2="480" y2="187" stroke="#FFAA50" stroke-width="0.6" opacity="0.6"/>
+              <line x1="240" y1="208" x2="480" y2="208" stroke="#FFAA50" stroke-width="0.6" opacity="0.6"/>
+              <line x1="160" y1="120" x2="160" y2="300" stroke="#F58807" stroke-width="1" stroke-dasharray="3 3"/>
+              <line x1="155" y1="120" x2="165" y2="120" stroke="#F58807" stroke-width="1.5"/>
+              <line x1="155" y1="300" x2="165" y2="300" stroke="#F58807" stroke-width="1.5"/>
+              <rect x="120" y="200" width="44" height="20" fill="#111827" stroke="#F58807" stroke-width="0.5"/>
+              <text x="142" y="214" font-family="JetBrains Mono" font-size="10" fill="#FFAA50" text-anchor="middle">36,4 m</text>
+              <circle cx="200" cy="170" r="6" fill="#F58807"/>
+              <circle cx="200" cy="170" r="12" fill="none" stroke="#F58807" stroke-width="1" opacity="0.5"/>
+            </g>
+            <g transform="translate(540 60)">
+              <rect width="40" height="26" rx="3" fill="#111827" stroke="#F58807" stroke-width="0.5"/>
+              <text x="20" y="17" font-family="JetBrains Mono" font-size="10" fill="#FFAA50" text-anchor="middle">BIM</text>
+            </g>
+            <text x="60" y="55" font-family="JetBrains Mono" font-size="10" fill="#FFAA50">ANÁLISE TÉCNICA · 3D WIREFRAME</text>
+            <text x="60" y="70" font-family="JetBrains Mono" font-size="9" fill="#7A869A">VOLUMETRIA · ÍNDICES · PARÂMETROS</text>
+          </svg>
+        </div>
+      </div>
+
+      <div class="col-span-12 lg:col-span-5 order-1 lg:order-2">
+        <span class="pill-mono border border-white/15 bg-white/5 text-white/70 inline-flex items-center gap-2 mb-5">
+          ANÁLISE BIM · DIFERENCIAL TÉCNICO
+        </span>
+        <h2 class="h-display text-[40px] lg:text-[56px] mt-3 text-white leading-[0.97]">Análise técnica em <span class="text-citrine">três dimensões.</span></h2>
+        <p class="mt-5 text-[16px] text-white/70 leading-[1.55]">
+          Volumes, índices e parâmetros urbanísticos lidos direto do modelo 3D. Leitura automática que valida volumetria e reduz inconsistência em todos os pedidos — sem interpretação manual.
+        </p>
+        <ul class="mt-6 grid grid-cols-2 gap-4 text-[14px]">
+          <li class="flex gap-2"><span class="text-citrine">✓</span><span><strong class="text-white">Leitura automática</strong> <span class="text-white/60">de parâmetros</span></span></li>
+          <li class="flex gap-2"><span class="text-citrine">✓</span><span><strong class="text-white">Validação de volumetria</strong> <span class="text-white/60">e índices</span></span></li>
+          <li class="flex gap-2"><span class="text-citrine">✓</span><span><strong class="text-white">Redução de inconsistências</strong> <span class="text-white/60">parametrizadas</span></span></li>
+          <li class="flex gap-2"><span class="text-citrine">✓</span><span><strong class="text-white">Análises padronizadas</strong> <span class="text-white/60">entre secretarias</span></span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ SUSTENTAÇÃO -->
+<section class="py-20 lg:py-28 bg-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="text-center max-w-[760px] mx-auto mb-12">
+      <h2 class="h-display text-[40px] lg:text-[60px]">Garantia de continuidade para operações que não podem parar.</h2>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+      <article class="rounded-2xl bg-ink text-white p-8">
+        <p class="font-sans mono text-[11px] text-white/50">UPTIME</p>
+        <p class="h-display text-[56px] mt-4 leading-none">99,9<span class="text-citrine">%</span></p>
+        <p class="text-[13px] text-white/60 mt-3 leading-[1.5]">SLA de disponibilidade contínua.</p>
+      </article>
+      <article class="rounded-2xl bg-citrine text-white p-8">
+        <p class="font-sans mono text-[11px] opacity-80">SEGURANÇA</p>
+        <p class="h-display text-[56px] mt-4 leading-none">ISO</p>
+        <p class="h-strong text-[18px] mt-1 leading-none">27001</p>
+        <p class="text-[13px] opacity-90 mt-3 leading-[1.4]">auditado e certificado.</p>
+      </article>
+      <article class="rounded-2xl bg-bg2 border border-line text-ink p-8">
+        <p class="font-sans mono text-[11px] text-ash">SUPORTE</p>
+        <p class="h-display text-[56px] mt-4 leading-none">24/7</p>
+        <p class="text-[13px] text-ash mt-3 leading-[1.5]">Equipe técnica especializada.</p>
+      </article>
+      <article class="rounded-2xl bg-white border border-line text-ink p-8">
+        <p class="font-sans mono text-[11px] text-ash">ACESSO</p>
+        <p class="h-display text-[56px] mt-4 leading-none">API</p>
+        <p class="text-[13px] text-ash mt-3 leading-[1.5]">Integração com sistemas da prefeitura.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ▸ CAIXA DE ENTRADA · img117 + cases -->
+<section id="prefeituras" class="bg-bg2 hairline-t hairline-b py-20 lg:py-28">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10">
+    <div class="grid grid-cols-12 gap-10 items-end mb-12">
+      <div class="col-span-12 md:col-span-7">
+        <h2 class="h-display text-[40px] lg:text-[60px] text-ink leading-[0.97]">
+          Caixa de entrada. Cada processo na <span class="text-citrine">fila certa.</span>
+        </h2>
+      </div>
+      <p class="col-span-12 md:col-span-5 text-[15px] text-ash max-w-[420px]">
+        Triagem automática por estágio, atribuição por responsável, urgência destacada. Equipe sabe exatamente o que abrir primeiro — sem priorização manual, sem retrabalho.
+      </p>
+    </div>
+
+    <!-- mockup notebook no lugar dos 4 cards -->
+    <div class="max-w-[1100px] mx-auto aspect-[977/584]">
+      <img src="./img/mockup2.png" alt="Mockup de notebook CityPro — tela placeholder aguardando imagem do produto" class="w-full h-full object-contain block" />
+    </div>
+</section>
+
+<!-- ▸ CTA FINAL · img557 -->
+<section id="contato" class="relative bg-ink text-white py-28 lg:py-36 overflow-hidden">
+  <div class="absolute inset-0 opacity-30 pointer-events-none">
+    <img src="./img/img557.jpg" alt="" aria-hidden="true" class="w-full h-full object-cover" />
+  </div>
+  <div class="absolute inset-0 bg-gradient-to-b from-ink via-ink/80 to-ink pointer-events-none"></div>
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[300px] rounded-full blur-3xl opacity-25 pointer-events-none" style="background: radial-gradient(closest-side, rgba(245,136,7,0.5), transparent 70%);"></div>
+
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 relative">
+    <div class="text-center max-w-[820px] mx-auto">
+      <h2 class="h-display text-[52px] lg:text-[96px] text-white leading-[0.95]">Eleve o nível do <span class="text-citrine">licenciamento</span> urbanístico.</h2>
+      <p class="mt-7 text-[17px] text-white/70 max-w-[640px] mx-auto leading-[1.55]">
+        Modernize o licenciamento através de investimento, recoz custo operacional e melhoria da vida urbana. Se a sua cidade ainda perde tempo com papel, pessoas e silêncio entre órgãos, vamos conversar.
+      </p>
+      <div class="mt-9 flex flex-wrap items-center justify-center gap-3">
+        <a href="./contato.html" class="cta-citr px-7 py-4 rounded text-[14px] font-semibold transition font-sans">Falar com Especialista</a>
+        <a href="./plataforma.html" class="border border-white/20 hover:border-white/40 text-white px-7 py-4 rounded text-[14px] font-semibold transition">Ver plataforma</a>
+      </div>
+    </div>
+
+    <form class="mt-20 max-w-[820px] mx-auto rounded-xl border border-white/15 bg-white/5 backdrop-blur-sm p-7 lg:p-10" onsubmit="event.preventDefault(); this.querySelector('[data-ok]').classList.remove('hidden'); this.reset();">
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <label class="font-sans block">
+          <span class="font-sans mono text-[11px] text-white/60">NOME COMPLETO</span>
+          <input required class="font-sans mt-2 w-full bg-white/[0.04] border border-white/15 focus:border-citrine rounded py-3 px-4 outline-none text-white placeholder:text-white/30" placeholder="Como prefere ser chamado" />
+        </label>
+        <label class="font-sans block">
+          <span class="font-sans mono text-[11px] text-white/60">CARGO / SECRETARIA</span>
+          <input class="font-sans mt-2 w-full bg-white/[0.04] border border-white/15 focus:border-citrine rounded py-3 px-4 outline-none text-white placeholder:text-white/30" placeholder="Ex.: Secretária de Obras" />
+        </label>
+        <label class="font-sans block">
+          <span class="font-sans mono text-[11px] text-white/60">E-MAIL INSTITUCIONAL</span>
+          <input type="email" required class="font-sans mt-2 w-full bg-white/[0.04] border border-white/15 focus:border-citrine rounded py-3 px-4 outline-none text-white placeholder:text-white/30" placeholder="voce@prefeitura.gov.br" />
+        </label>
+        <label class="font-sans block">
+          <span class="font-sans mono text-[11px] text-white/60">PREFEITURA / MUNICÍPIO</span>
+          <input class="font-sans mt-2 w-full bg-white/[0.04] border border-white/15 focus:border-citrine rounded py-3 px-4 outline-none text-white placeholder:text-white/30" placeholder="Cidade / UF" />
+        </label>
+        <label class="font-sans block md:col-span-2">
+          <span class="font-sans mono text-[11px] text-white/60">CONTA UM POUCO DO SEU CENÁRIO</span>
+          <textarea rows="4" class="font-sans mt-2 w-full bg-white/[0.04] border border-white/15 focus:border-citrine rounded py-3 px-4 outline-none text-white placeholder:text-white/30 resize-none" placeholder="Como o licenciamento roda hoje na sua prefeitura?"></textarea>
+        </label>
+      </div>
+      <button class="mt-5 w-full cta-citr py-4 rounded text-[14px] font-semibold transition">Falar com Especialista →</button>
+      <p data-ok class="hidden text-[13px] text-citrine mt-3 text-center mono">RECEBIDO · RESPONDEMOS EM ATÉ 1 DIA ÚTIL.</p>
+    </form>
+  </div>
+</section>
+
+<footer class="bg-ink2 text-white">
+  <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-16 grid grid-cols-2 md:grid-cols-4 gap-10">
+    <div class="col-span-2 md:col-span-1">
+      <img src="./img/branco-laranja.svg" alt="CityPro" class="h-7 w-auto" />
+      <p class="mt-5 text-[13px] text-white/60 max-w-[260px]">Infraestrutura digital decisiva para prefeituras que não podem parar.</p>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">EXPLORE</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./plataforma.html" class="hover:text-white">Plataforma completa</a></li>
+        <li><a href="#como-funciona" class="hover:text-white">Como funciona</a></li>
+        <li><a href="#sobre.html" class="hover:text-white">Sobre a CityPro</a></li>
+        <li><a href="./contato.html" class="hover:text-white">Falar com Especialista</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">CONTATO</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li>(11) 5047-7902</li>
+        <li>contato@citypro.net.br</li>
+        <li>Campo Grande · MS</li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-sans text-[10.5px] font-semibold text-white/40 uppercase tracking-[0.14em] mb-5">INSTITUCIONAL</p>
+      <ul class="space-y-2 text-[13.5px] text-white/70">
+        <li><a href="./sobre.html" class="hover:text-white">Sobre a CityPro</a></li>
+        <li><a href="#" class="hover:text-white">Política de privacidade</a></li>
+        <li><a href="#" class="hover:text-white">Termos de uso</a></li>
+        <li><a href="#" class="hover:text-white">Segurança e LGPD</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="border-t border-white/10">
+    <div class="max-w-[1280px] mx-auto px-6 lg:px-10 py-5 flex items-center justify-between flex-wrap gap-3">
+      <p class="font-sans mono text-[11px] text-white/50">CITYPRO · TODOS OS DIREITOS RESERVADOS 2026 ©</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+    });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('section').forEach((s) => { s.classList.add('reveal'); obs.observe(s); });
+</script>
+</body>
+</html>
